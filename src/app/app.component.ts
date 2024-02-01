@@ -1,5 +1,5 @@
 import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Laptop } from './app.interface';
+import { Laptop, Student } from './app.interface';
 
 @Component({
   selector: 'app-root',
@@ -11,29 +11,33 @@ import { Laptop } from './app.interface';
   //   color: red
   // }`]
 })
-export class AppComponent implements OnInit {
-  title: string;
-  today: Date = new Date();
-  version: number = 1;
-  myNewLaptop: Laptop
-
+export class AppComponent  {
+  initialStudent: Student
+  modifiedData: any
   constructor() {
-    this.title = `My First Angular App, and its version: ${this.version}`;
-    this.myNewLaptop = {
-      brand: 'Lenovo',
-      year: 2020,
-      hasFrontCamera: true,
-      keyboardType: 'long'
+     this.initialStudent =  {
+      firstName: 'Eleanor',
+      lastName: 'Poe',
+      age: 25,
+      email: 'eleanorPoe@test.com',
+      studentId: 1,
+      gender: 'female',
+      enrollmentDate: new Date('07-03-2014'),
+      favSubject: [],
+      isInternational: true,
+      phone: '',
+      profileImg: 'https://i.imgur.com/wvxPV9S.png'
+
     }
-    console.log(this.myNewLaptop)
+
   }
-  ngOnInit() {
-    this.version = 3
-    console.log('App Initialized')
+
+  receiveData(data: {extraEmail: string; extraPhone: string}) {
+    this.modifiedData = data
+    const { extraEmail, extraPhone } = data
+    this.initialStudent.phone = extraPhone
+    this.initialStudent.extraEmail = extraEmail
   }
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log(changes)
-  // }
   // ngDoCheck(): void {
   //   console.log('Do Check')
   // }
@@ -52,8 +56,5 @@ export class AppComponent implements OnInit {
   // ngOnDestroy(): void {
   //   console.log('On Destroy')
   // }
-  increment(ev: Event) {
-    const target = ev.target as HTMLButtonElement
-    console.log(target)
-  }
+
 }

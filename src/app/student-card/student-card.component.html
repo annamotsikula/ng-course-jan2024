@@ -1,0 +1,30 @@
+<div class="card p-4">
+    <div
+      class="image d-flex flex-column justify-content-center align-items-center"
+    >
+      <button class="btn btn-secondary">
+        <img
+          [src]="student.profileImg"
+          height="100"
+          width="100"
+        />
+      </button>
+      <span class="name mt-3"
+        >{{ student.firstName }} {{ student.lastName }}</span
+      >
+      <span class="idd">{{student.email}}</span>
+      <span>{{student.extraEmail}}</span>
+      <input type="text" [(ngModel)]="extraEmail">
+      <button (click)="addEmail()">Add another email</button>
+      <div
+        class="d-flex flex-row justify-content-center align-items-center mt-3"
+      >
+        <!-- <span class="number">1069 <span class="follow">Followers</span></span> -->
+        <span>{{student.isInternational ? 'International Student' : 'Local Student'}}</span>
+    </div>
+    <input type="text" [(ngModel)]="additionalContactNumber">
+      <div class="d-flex mt-2">
+        <button class="btn1 btn-dark" (click)="edit()">Send Data</button>
+      </div>
+    </div>
+  </div>
