@@ -6,11 +6,17 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { StudentCardComponent } from './student-card/student-card.component';
+import { OutdateDirective } from './helpers/directives/outdate.directive';
+import { ExamplePipesComponent } from './example-pipes/example-pipes.component';
+import { TruncatePipe } from './helpers/pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentCardComponent,
+    OutdateDirective,
+    ExamplePipesComponent,
+    TruncatePipe,
   ],
   imports: [
     BrowserModule,

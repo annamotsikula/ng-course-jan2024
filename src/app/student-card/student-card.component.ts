@@ -16,6 +16,12 @@ export class StudentCardComponent implements OnChanges{
     console.log(changes)
   }
 
+  inActiveStudent() {
+    const currentDate = new Date();
+    const expirationDate = 5;
+    return (currentDate.getFullYear() - this.student.enrollmentDate.getFullYear()) > expirationDate
+  }
+
 
 
   constructor() {

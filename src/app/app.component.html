@@ -1,11 +1,19 @@
 <app-header />
 <div class="container">
-  <div>
-    <p class="alert alert-warning">Student Portal Page</p>
+  <div style="border-bottom: 1px solid black; margin-bottom: 30px">
+    <!-- <p class="alert alert-warning">Student Portal Page</p> -->
+
+    <app-example-pipes />
+
   </div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
-
-    <app-student-card [student]="initialStudent" (sendDetails)="receiveData($event)"/>
+    <ng-container *ngFor="let student of studentList">
+      <app-student-card 
+      [student]="student" 
+      (sendDetails)="receiveData($event)"
+      />
+      <!-- *ngIf="student.age > 25" -->
+    </ng-container>
   </div>
 </div>
 
