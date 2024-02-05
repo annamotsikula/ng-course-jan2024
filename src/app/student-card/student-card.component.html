@@ -14,17 +14,14 @@
       >
       <span class="idd">{{student.email}}</span>
       <span>{{student.extraEmail}}</span>
-      <input type="text" [(ngModel)]="extraEmail">
-      <button (click)="addEmail()">Add another email</button>
+      
       <div
         class="d-flex flex-row justify-content-center align-items-center mt-3"
       >
-        <!-- <span class="number">1069 <span class="follow">Followers</span></span> -->
         <span>{{student.isInternational ? 'International Student' : 'Local Student'}}</span>
     </div>
-    <input type="text" [(ngModel)]="additionalContactNumber">
       <div class="d-flex mt-2">
-        <button class="btn1 btn-dark" (click)="edit()">Send Data</button>
+        <button class="btn1 btn-dark" (click)="edit()">View Profile</button>
       </div>
     </div>
   </div>
