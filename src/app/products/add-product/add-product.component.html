@@ -1,0 +1,25 @@
+<div class="input-group">
+    <div class="mb-3 ms-2">
+      <label class="form-label">Title</label>
+      <input type="text" class="form-control" [(ngModel)]="product.title">
+    </div>
+    <div class="mb-3 ms-2">
+      <label class="form-label">Description</label>
+      <input type="text" class="form-control"  [(ngModel)]="product.description">
+    </div>
+    <div class="mb-3 ms-2">
+      <label class="form-label">Price</label>
+      <input type="number" class="form-control" [(ngModel)]="product.price">
+    </div>
+    <div class="mb-3 ms-2">
+      <label class="form-label">Category</label>
+      <select class="form-select" name="" id="" [(ngModel)]="product.category">
+        <option selected value="">Choose category</option>
+        <option value="clothes">Clothes</option>
+        <option value="electronics">Electronics</option>
+        <option value="accessories">Accessories</option>
+      </select>
+    </div>
+   
+  </div>
+  <button class="btn btn-primary" (click)="add()">+ Add New Product</button>

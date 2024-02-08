@@ -10,7 +10,7 @@ export class TruncatePipe implements PipeTransform {
 
     if(words.length > limit) {
       if(limit > 0) {
-        return words.slice(0, limit).join(' ')
+        return words.slice(0, limit).join(' ') + '...'
       } else {
         const positiveLimitNumber = (limit * -1);
         return words.slice(words.length - positiveLimitNumber).join(" ")

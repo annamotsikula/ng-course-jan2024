@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Student } from '../interfaces/student.interface';
+import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
   selector: 'app-student-card',
   templateUrl: './student-card.component.html',
-  styleUrls: ['./student-card.component.scss']
+  styleUrls: ['./student-card.component.scss'],
+  providers: [ProductService]
 })
 export class StudentCardComponent implements OnChanges{
   @Input({required: true}) student!: Student
@@ -13,7 +15,7 @@ export class StudentCardComponent implements OnChanges{
   @Output() sendDetails: EventEmitter<{extraEmail: string; extraPhone: string}> = new EventEmitter<{extraEmail: string; extraPhone: string}>()
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    // console.log(changes)
   }
 
   inActiveStudent() {

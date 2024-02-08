@@ -11,7 +11,7 @@ export class OutdateDirective implements OnInit {
     const currentDate = new Date();
     const expTimeInYears = 4;
     const yearsOfEnrollment = currentDate.getFullYear() - this.enrollmentDate.getFullYear();
-    console.log(this._el);
+    // console.log(this._el);
     
     if(yearsOfEnrollment > expTimeInYears) {
       (this._el.nativeElement as HTMLElement).style.opacity = "0.5";

@@ -1,0 +1,13 @@
+<div>
+  <!-- <i
+    class="bi"
+    [ngClass]="{
+      'bi-star-fill': rate >= s + 1,
+      'bi-star-half': rate > s && rate < s + 1
+    }"
+    *ngFor="let s of starList"
+  ></i> -->
+  <i *ngFor="let s of starList" class="bi bi-star-fill"></i>
+  <i *ngIf="rate % 1 !== 0" class="bi bi-star-half"></i>
+</div>
+<!-- 4.36 -->

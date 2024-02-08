@@ -1,0 +1,17 @@
+<div class="card p-4">
+    <span class="badge rounded-pill text-bg-warning" *ngIf="product.stock <= 20">Few Items left</span>
+  <div
+    class="image d-flex flex-column justify-content-center align-items-center"
+  >
+    <button class="btn btn-secondary">
+      <img [src]="product.thumbnail" height="100" width="100" />
+    </button>
+    <span class="name mt-3">{{ product.title }}</span>
+    <span class="name mt-3">{{ product.price | currency }}</span>
+    <app-rating [rate]="product.rating"/>
+    <span class="text-center">{{product.description | truncate: 7}}</span>
+    <div class="d-flex mt-2">
+      <button class="btn1 btn-dark">View Product</button>
+    </div>
+  </div>
+</div>
