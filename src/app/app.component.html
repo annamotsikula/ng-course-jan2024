@@ -10,7 +10,6 @@
     <ng-container *ngFor="let student of studentList">
       <app-student-card 
       [student]="student" 
-      (sendDetails)="receiveData($event)"
       />
       <!-- *ngIf="student.age > 25" -->
     </ng-container>

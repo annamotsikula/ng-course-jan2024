@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { Student } from '../app.interface';
+import { Student } from '../interfaces/student.interface';
 
 @Component({
   selector: 'app-student-card',

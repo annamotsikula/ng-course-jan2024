@@ -1,5 +1,6 @@
 import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Laptop, Student } from './app.interface';
+import { Laptop } from './app.interface';
+import { Student } from './demo-examples/interfaces/student.interface';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,6 @@ import { Laptop, Student } from './app.interface';
   // }`]
 })
 export class AppComponent {
-  initialStudent!: Student
   studentList: Student[] = []
   modifiedData: any
   constructor() {
@@ -84,14 +84,5 @@ export class AppComponent {
       }
     ]
     console.log(this.studentList)
-
-
-  }
-
-  receiveData(data: { extraEmail: string; extraPhone: string }) {
-    console.log(data)
-    // const { extraEmail, extraPhone } = data
-    // this.initialStudent.phone = extraPhone
-    // this.initialStudent.extraEmail = extraEmail
   }
 }
