@@ -16,6 +16,6 @@ constructor() {
 
 ngOnInit() {
   this.starList = Array(Math.floor(this.rate)).fill(0)
-  console.log(this.starList, this.rate)
+  // console.log(this.starList, this.rate)
 }
 }

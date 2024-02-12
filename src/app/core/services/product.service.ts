@@ -583,4 +583,12 @@ export class ProductService {
     this._products.push(newProduct)
 
   }
+
+  getProductById(id: number): Product | undefined {
+    const product = this._products.find(i=> i.id === id);
+    if(product) {
+      return product
+    } 
+    return undefined
+  }
 }

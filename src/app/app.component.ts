@@ -10,9 +10,7 @@ import { INJECTOR_TITLE } from './core/constants';
 })
 export class AppComponent implements OnInit {
   products: Product[] = [];
-  appTitle: string
-  constructor(private _productService: ProductService, @Inject(INJECTOR_TITLE) pageTitle: string ) {
-    this.appTitle = pageTitle
+  constructor(private _productService: ProductService ) {
   }
 
   ngOnInit(): void {
