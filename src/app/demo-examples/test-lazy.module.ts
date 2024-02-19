@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TestLazyRoutingModule } from './test-lazy-routing.module';
 import { ExamplePipesComponent } from './example-pipes/example-pipes.component';
 import { ChildRoutingComponentComponent } from './child-routing-component/child-routing-component.component';
-import { TruncatePipe } from '../helpers/pipes/truncate.pipe';
+import { SharedModule } from '../core/modules/shared.module';
 
 
 
@@ -11,11 +11,11 @@ import { TruncatePipe } from '../helpers/pipes/truncate.pipe';
   declarations: [
     ExamplePipesComponent,
     ChildRoutingComponentComponent,
-    TruncatePipe
   ],
   imports: [
     CommonModule,
     TestLazyRoutingModule,
+    SharedModule
     
   ]
 })

@@ -1,0 +1,22 @@
+.form {
+    margin: auto;
+}
+
+.nested-group {
+    .form-floating {
+        margin-bottom: .5rem;
+    }
+}
+form {
+    .ng-dirty.ng-touched.ng-invalid, .ng-touched.ng-invalid {
+        border: 1px solid red;
+    }
+    .badge {
+        font-size: 14px;
+        cursor: pointer;
+        &:hover {
+            filter: contrast(0.9);
+        }
+    }
+}
+

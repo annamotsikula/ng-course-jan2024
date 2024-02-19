@@ -1,0 +1,163 @@
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  + New Product
+</button>
+<app-modal title="New Product">
+  <form [formGroup]="form" class="form" (submit)="onSubmit()">
+    <div class="row g-2 mb-2">
+      <div class="col-md">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInputGrid"
+            placeholder="Type Product title"
+            formControlName="name"
+          />
+          <label for="floatingInputGrid">Title</label>
+        </div>
+        <div
+          *ngIf="
+            form.controls['name'].touched &&
+            form.controls['name'].invalid &&
+            form.controls['name'].errors
+          "
+        >
+          <p
+            class="text-danger"
+            *ngIf="form.controls['name'].errors['required']"
+          >
+            *This field is required
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="form.controls['name'].errors['minlength']"
+          >
+            *Minimum length
+            {{ form.controls["name"].errors["minlength"].requiredLength }}
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="form.controls['name'].errors['maxlength']"
+          >
+            *Max
+            {{ form.controls["name"].errors["maxlength"].requiredLength }}
+            characters required
+          </p>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating">
+          <select
+            class="form-select"
+            id="floatingSelectGrid"
+            formControlName="brand"
+          >
+            <option value="1">Apple</option>
+            <option value="2">Microsoft</option>
+            <option value="3">Amazon</option>
+          </select>
+          <label for="floatingSelectGrid">Brand</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md mb-2">
+      <div class="form-floating">
+        <textarea
+          type="text"
+          class="form-control"
+          placeholder="Describe poduct"
+          formControlName="description"
+        ></textarea>
+        <label for="floatingInputGrid">Description</label>
+      </div>
+    </div>
+    <div class="col-md mb-2">
+      <div class="form-floating">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Type Product title"
+          formControlName="price"
+        />
+        <label for="floatingInputGrid">Price</label>
+      </div>
+      <div
+        *ngIf="form.controls['price'].touched && form.controls['price'].invalid"
+      >
+        <p
+          class="text-danger"
+          *ngIf="
+            form.controls['price'].errors &&
+            form.controls['price'].errors['min']
+          "
+        >
+          *Minimum price {{ form.controls["price"].errors["min"].min }} *Your
+          price {{ form.controls["price"].errors["min"].actual }}
+        </p>
+      </div>
+    </div>
+
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        formControlName="hasFeatures"
+        id="flexCheckDefault"
+      />
+      <label class="form-check-label" for="flexCheckDefault">
+        Does you product have aditional features?
+      </label>
+    </div>
+
+    <div
+      class="col-md mb-2"
+      formGroupName="features"
+      class="nested-group"
+      *ngIf="form.controls['hasFeatures'].value"
+    >
+      <h5>Features</h5>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInputGrid"
+          placeholder="Type Product title"
+          formControlName="color"
+        />
+        <label for="floatingInputGrid">color</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInputGrid"
+          placeholder="Type Product title"
+          formControlName="size"
+        />
+        <label for="floatingInputGrid">size</label>
+      </div>
+    </div>
+    <div class="category d-flex mt-3">
+      <span
+        class="badge rounded-pill text-bg-primary ms-2"
+        *ngFor="let c of categoryList"
+        (click)="addCategory(c)"
+        [ngClass]="{'text-bg-success' : c.selected}"
+        >{{ c.name }}</span
+      >
+      <span class="badge rounded-pill text-bg-warning" (click)="addItemInArr()">+ Add custom category</span>
+    </div>
+    <div formArrayName="category" class="my-3">
+        <div *ngFor="let control of categoryArray.controls; let i = index" class="d-flex align-items-center">
+            <input class="form-control my-2" type="text" [formControlName]="i" >
+            <i class="bi bi-x-lg ms-2" (click)="removeItem(control.value)"></i>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</app-modal>
