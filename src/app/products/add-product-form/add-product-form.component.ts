@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { List, ProductForm } from 'src/app/helpers/interfaces/product.interface';
 
 @Component({
@@ -9,7 +9,7 @@ import { List, ProductForm } from 'src/app/helpers/interfaces/product.interface'
 })
 export class AddProductFormComponent {
   form: FormGroup<ProductForm>
-  @Output() newProduct : EventEmitter<any> = new EventEmitter<any>()
+  @Output() newProduct: EventEmitter<any> = new EventEmitter<any>()
   currencyList: List[] = [
     { id: 'gel', name: '₾' },
     { id: 'usd', name: '$' },
@@ -22,7 +22,16 @@ export class AddProductFormComponent {
     { id: '48226', name: 'home & decor' }
   ]
 
-  constructor() {
+  constructor(private _fb: FormBuilder) {
+    const newForm = this._fb.group({
+      id: this._fb.control(null),
+      name: this._fb.control(null),
+      category: this._fb.array([]),
+      features: this._fb.group({
+        
+      })
+    })
+
     this.form = new FormGroup<ProductForm>({
       id: new FormControl('123', { nonNullable: true }),
       name: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),

@@ -1,5 +1,16 @@
 <!-- <app-add-product (newProduct)="addProduct($event)" /> -->
 <app-add-product-form (newProduct)="addProduct($event)"></app-add-product-form>
+<form #formModel="ngForm" (ngSubmit)="templateDrFormSubmit(formModel)">
+    <input type="text" id="firstName" name="firstName" [(ngModel)]="dataModel.firstName" #firstName="ngModel" required  class="form-control">
+    <div *ngIf="firstName.invalid || firstName.pristine">
+      <p class="text-danger">This field is invalid</p>
+    </div>
+    <input type="text" id="lastName" name="lastName" ngModel  class="form-control">
+    <input type="number" id="lastName" name="age" ngModel  class="form-control">
+    <button type="submit">Submit</button>
+</form>
+
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <app-product *ngFor="let p of products" [product]="p" />
 </div>
