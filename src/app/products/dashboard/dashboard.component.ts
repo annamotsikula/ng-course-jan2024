@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductService } from 'src/app/core/services/product.service';
-import { NewProduct, Product } from 'src/app/helpers/interfaces/product.interface';
+import { NewProduct, Product, ProductForm } from 'src/app/helpers/interfaces/product.interface';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -9,7 +9,7 @@ import { NewProduct, Product } from 'src/app/helpers/interfaces/product.interfac
 })
 export class ProductDashboardComponent {
   products: Product[] = [];
-  constructor(private _productService: ProductService ) {
+  constructor(private _productService: ProductService) {
   }
 
   ngOnInit(): void {
@@ -17,8 +17,11 @@ export class ProductDashboardComponent {
     // console.log(this.products)
   }
 
-  addProduct(product: NewProduct) {
-    console.log('Product will be added: ', product)
-      this._productService.addProduct(product)
+  addProduct({ name, description, price, category, brand }: any) {
+    const newProduct = {
+      title: name, description, price, category
+    }
+    console.log('Product will be added: ', newProduct)
+    this._productService.addProduct(newProduct)
   }
 }

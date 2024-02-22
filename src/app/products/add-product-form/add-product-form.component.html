@@ -6,9 +6,19 @@
 >
   + New Product
 </button>
-<app-modal title="New Product">
-  <form [formGroup]="form" class="form" (submit)="onSubmit()">
+<app-modal title="New Product" (detectClick)="onSubmit()">
+  <form [formGroup]="form" class="form">
     <div class="row g-2 mb-2">
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInputGrid"
+          placeholder="Type Product title"
+          formControlName="id"
+        />
+        <label for="floatingInputGrid">ID</label>
+      </div>
       <div class="col-md">
         <div class="form-floating">
           <input
@@ -22,30 +32,30 @@
         </div>
         <div
           *ngIf="
-            form.controls['name'].touched &&
-            form.controls['name'].invalid &&
-            form.controls['name'].errors
+            form.controls.name.touched &&
+            form.controls.name.invalid &&
+            form.controls.name.errors
           "
         >
           <p
             class="text-danger"
-            *ngIf="form.controls['name'].errors['required']"
+            *ngIf="form.controls.name.errors['required']"
           >
             *This field is required
           </p>
           <p
             class="text-danger"
-            *ngIf="form.controls['name'].errors['minlength']"
+            *ngIf="form.controls.name.errors['minlength']"
           >
             *Minimum length
-            {{ form.controls["name"].errors["minlength"].requiredLength }}
+            {{ form.controls.name.errors["minlength"].requiredLength }}
           </p>
           <p
             class="text-danger"
-            *ngIf="form.controls['name'].errors['maxlength']"
+            *ngIf="form.controls.name.errors['maxlength']"
           >
             *Max
-            {{ form.controls["name"].errors["maxlength"].requiredLength }}
+            {{ form.controls.name.errors["maxlength"].requiredLength }}
             characters required
           </p>
         </div>
@@ -76,7 +86,7 @@
         <label for="floatingInputGrid">Description</label>
       </div>
     </div>
-    <div class="col-md mb-2">
+    <div class="col-md mb-2 d-flex align-items-baseline">
       <div class="form-floating">
         <input
           type="number"
@@ -85,23 +95,32 @@
           formControlName="price"
         />
         <label for="floatingInputGrid">Price</label>
-      </div>
-      <div
-        *ngIf="form.controls['price'].touched && form.controls['price'].invalid"
-      >
-        <p
-          class="text-danger"
-          *ngIf="
-            form.controls['price'].errors &&
-            form.controls['price'].errors['min']
-          "
+        <div
+          *ngIf="form.controls.price.touched && form.controls.price.invalid"
         >
-          *Minimum price {{ form.controls["price"].errors["min"].min }} *Your
-          price {{ form.controls["price"].errors["min"].actual }}
-        </p>
+          <p
+            class="text-danger"
+            *ngIf="
+              form.controls.price.errors &&
+              form.controls.price.errors['min']
+            "
+          >
+            *Minimum price {{ form.controls.price.errors["min"].min }} *Your
+            price {{ form.controls.price.errors["min"].actual }}
+          </p>
+        </div>
+      </div>
+      <div>
+        <span
+        class="badge rounded-pill text-bg-primary ms-2"
+        *ngFor="let c of currencyList"
+        (click)="addCurrency(c)"
+        [ngClass]="{'text-bg-success' : c.selected}"
+        >{{ c.name }}</span
+      >
       </div>
     </div>
-
+    <!-- <button class="btn-btn-seconary" type="button" (click)="updateControlValue()">Update Value</button> -->
     <div class="form-check">
       <input
         class="form-check-input"
@@ -118,7 +137,7 @@
       class="col-md mb-2"
       formGroupName="features"
       class="nested-group"
-      *ngIf="form.controls['hasFeatures'].value"
+      *ngIf="form.controls.hasFeatures.value"
     >
       <h5>Features</h5>
       <div class="form-floating">
@@ -150,14 +169,15 @@
         [ngClass]="{'text-bg-success' : c.selected}"
         >{{ c.name }}</span
       >
-      <span class="badge rounded-pill text-bg-warning" (click)="addItemInArr()">+ Add custom category</span>
     </div>
-    <div formArrayName="category" class="my-3">
-        <div *ngFor="let control of categoryArray.controls; let i = index" class="d-flex align-items-center">
+    <div formArrayName="specification" class="my-3">
+      <h5>Specifications</h5>
+      <span class="badge rounded-pill text-bg-warning" (click)="addItemInArr('specification')">+ Add new specification</span>
+        <div *ngFor="let control of form.controls.specification.controls; let i = index" class="d-flex align-items-center">
             <input class="form-control my-2" type="text" [formControlName]="i" >
-            <i class="bi bi-x-lg ms-2" (click)="removeItem(control.value)"></i>
+            <i class="bi bi-x-lg ms-2" (click)="removeItem(control.value, 'specification')"></i>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    <!-- <button type="submit" class="btn btn-primary mt-3">Submit</button> -->
   </form>
 </app-modal>

@@ -1,4 +1,6 @@
-export interface Product extends NewProduct{
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
+
+export interface Product extends NewProduct {
     id: number,
     discountPercentage?: number,
     rating: number,
@@ -10,6 +12,29 @@ export interface Product extends NewProduct{
 export interface NewProduct {
     title: string;
     description: string;
-    price: number|null;
+    price: number | null;
     category: string;
 }
+
+export interface ProductForm {
+    id: FormControl;
+    name: FormControl<string | null>,
+    description: FormControl<string | null>,
+    brand: FormControl<string | null>,
+    price: FormControl<number | null>,
+    category: FormArray,
+    hasFeatures: FormControl<boolean | null>,
+    features?: FormGroup<ProductFeatureForm>,
+    currency?: FormControl<string | null>,
+    specification: FormArray,
+   
+
+}
+
+export interface ProductFeatureForm {
+    color: FormControl<string>;
+    size: FormControl<string>;
+
+}
+
+export interface List { id: string; name: string; selected?: boolean }
