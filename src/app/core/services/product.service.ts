@@ -1,12 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ProductHttpResponse } from 'src/app/helpers/interfaces/http.interface';
 import { NewProduct, Product } from 'src/app/helpers/interfaces/product.interface';
+import { BASE_URL } from '../constants';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private _products: Product[] = []
-  constructor() {
+  constructor(private _http: HttpClient) {
     console.log('Product Service Has Injected')
     this._products = [
       {
@@ -566,9 +570,10 @@ export class ProductService {
 
 
   getProducts() {
-    return this._products
+    return this._http.get<ProductHttpResponse>(`${BASE_URL}/products`)
+    // return this._products
   }
-  addProduct(product: NewProduct) {
+  addProduct(product: NewProduct): Observable<Product> {
     const newProduct: Product = {
       title: product.title,
       description: product.description,
@@ -580,15 +585,14 @@ export class ProductService {
       images: [],
       rating: 5
     }
-    this._products.push(newProduct)
+    return this._http.post<Product>(`${BASE_URL}/products/add`, {...newProduct})
 
   }
+  deleteProduct(id: number) {
+    return this._http.delete<Product>(`${BASE_URL}/products/${id}`)
+  }
 
-  getProductById(id: number): Product | undefined {
-    const product = this._products.find(i=> i.id === id);
-    if(product) {
-      return product
-    } 
-    return undefined
+  getProductById(id: number): Observable<Product> {
+    return this._http.get<Product>(`${BASE_URL}/products/${id}`)
   }
 }

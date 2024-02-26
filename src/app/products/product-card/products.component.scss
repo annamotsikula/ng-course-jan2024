@@ -11,8 +11,13 @@
     &:hover .image img {
         transform: scale(1.5)
     }
-    
-    .btn {
+    .delete {
+        font-size: 14px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .btn:not(.btn-danger) {
         height: 140px;
         width: 140px;
         border-radius: 50%

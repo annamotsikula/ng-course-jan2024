@@ -12,8 +12,13 @@ export class ProductDetailsComponent implements OnDestroy {
   item: Product | undefined
   constructor(private _activatedRoute: ActivatedRoute, private _productService: ProductService) {
     const idFromUrl = Number(this._activatedRoute.snapshot.params['id']);
-    this.item = this._productService.getProductById(idFromUrl);
-    console.log(this.item)
+    this._productService.getProductById(idFromUrl).subscribe(res => {
+      console.log('Result', res)
+      this.item = res
+    },
+    error => console.log(error),
+    () => console.log('COMPLETED')
+    );
   }
   ngOnDestroy() {
     console.log('This component will be removed from DOM')

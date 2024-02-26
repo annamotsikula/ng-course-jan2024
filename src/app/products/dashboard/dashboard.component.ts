@@ -21,18 +21,36 @@ export class ProductDashboardComponent {
   }
 
   ngOnInit(): void {
-    this.products = this._productService.getProducts()
-    // console.log(this.products)
+    this.getAllProducts();
   }
-  templateDrFormSubmit(ngform: NgForm) {
-    // console.log(ngform.form.)
 
+  getAllProducts() {
+    this._productService.getProducts().subscribe(
+      result => {
+        this.products = result.products
+      }
+    )
   }
+
+  deleteProduct(p: Product) {
+    this._productService.deleteProduct(p.id).subscribe(d => {
+      alert(
+        `Product (id: ${p.id}) has successfully deleted`
+      );
+      this.getAllProducts();
+    })
+  }
+  
+  // templateDrFormSubmit(ngform: NgForm) {
+  //   // console.log(ngform.form.)
+
+  // }
   addProduct({ name, description, price, category, brand }: any) {
     const newProduct = {
       title: name, description, price, category
     }
-    console.log('Product will be added: ', newProduct)
-    this._productService.addProduct(newProduct)
+    this._productService.addProduct(newProduct).subscribe(result => {
+      this.getAllProducts();
+    })
   }
 }
