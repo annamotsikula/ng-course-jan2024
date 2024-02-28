@@ -1,12 +1,11 @@
 <button
   type="button"
   class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
+  (click)="isOpen = true"
 >
   + New Product
 </button>
-<app-modal title="New Product" (detectClick)="onSubmit()">
+<app-modal title="New Product" *ngIf="isOpen" (detectClick)="onSubmit($event)">
   <form [formGroup]="form" class="form">
     <div class="row g-2 mb-2">
       <div class="form-floating">
@@ -43,6 +42,12 @@
           >
             *This field is required
           </p>
+          <p
+          class="text-danger"
+          *ngIf="form.controls.name.errors['nameRestricted']"
+        >
+          *Cannot name this field: Iphone
+        </p>
           <p
             class="text-danger"
             *ngIf="form.controls.name.errors['minlength']"

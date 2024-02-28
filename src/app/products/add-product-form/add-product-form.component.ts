@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from 'src/app/core/services/product.service';
 import { List, ProductForm } from 'src/app/helpers/interfaces/product.interface';
+import { nameRestrictionValidator } from 'src/app/helpers/validators/name.valiador';
 
 @Component({
   selector: 'app-add-product-form',
@@ -8,7 +10,8 @@ import { List, ProductForm } from 'src/app/helpers/interfaces/product.interface'
   styleUrls: ['./add-product-form.component.scss']
 })
 export class AddProductFormComponent {
-  form: FormGroup<ProductForm>
+  form: FormGroup<ProductForm>;
+  isOpen: boolean = false
   @Output() newProduct: EventEmitter<any> = new EventEmitter<any>()
   currencyList: List[] = [
     { id: 'gel', name: '₾' },
@@ -22,19 +25,19 @@ export class AddProductFormComponent {
     { id: '48226', name: 'home & decor' }
   ]
 
-  constructor(private _fb: FormBuilder) {
-    const newForm = this._fb.group({
-      id: this._fb.control(null),
-      name: this._fb.control(null),
-      category: this._fb.array([]),
-      features: this._fb.group({
-        
-      })
+  constructor(private _productService: ProductService) {
+    this._productService.productAdded.subscribe(status => {
+      if(status) {
+        this.isOpen = false;
+        this.form.reset();
+        this.categoryList.filter(i => i.selected).forEach(i => i.selected = false);
+        this.currencyList.filter(i => i.selected).forEach(i => i.selected = false);
+      }
     })
-
+  
     this.form = new FormGroup<ProductForm>({
       id: new FormControl('123', { nonNullable: true }),
-      name: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
+      name: new FormControl(null, [nameRestrictionValidator, Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
       description: new FormControl(null, [Validators.required]),
       brand: new FormControl(),
       price: new FormControl(null, [Validators.required, Validators.min(800)]),
@@ -52,19 +55,20 @@ export class AddProductFormComponent {
     })
     console.log(this.form)
 
+    this.form.controls.brand.valueChanges.subscribe(data => {
+      console.log(data)
+    })
+
+    this.form.controls.description.valueChanges.subscribe(data => {
+      console.log(data)
+    })
+
 
   }
   clearControl() {
     this.form.reset();
-    // console.log(this.form.controls.id)
   }
-  // updateControlValue() {
-  // this.form.controls.features?.setValue({color: 'red', size: 'S'});
-  // this.form.controls.features?.patchValue({color: 'red'});
-  // this.form.controls.name.setValue('anna');
-  // this.form.controls.name.patchValue('John');
-  // console.log(this.form.controls.features?.value)
-  // }
+
   addCurrency(curr: List) {
     if (curr.selected) return;
     this.form.addControl('currency', new FormControl(null, { nonNullable: true }))
@@ -94,14 +98,20 @@ export class AddProductFormComponent {
     (<FormArray>this.form.get(formArrayName)).push(item)
 
   }
-  onSubmit() {
-    console.log(this.form);
-    if (this.form.valid) {
-      this.newProduct.emit(this.form.value);
-      console.log('Form Submitted')
-      return;
+  onSubmit(status: boolean) {
+    const submit = () => {
+      if (this.form.valid) {
+        this.newProduct.emit(this.form.value);
+        return;
+      } else {
+        alert('Form is not valid')
+      }
     }
-    // alert('Your form is not valid')
+    const cancel = () => {
+      this.isOpen = false
+    }
+    status ? submit() : cancel();
+
   }
 
 

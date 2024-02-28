@@ -1,18 +1,16 @@
 <app-add-product-form (newProduct)="addProduct($event)"></app-add-product-form>
-
-
+<div class="mb-4 w-50 m-auto d-flex">
+  <input type="text" class="form-control" placeholder="Search items" #search>
+  <div class="dropdown ms-2">
+    <button class="btn btn-secondary dropdown-toggle" (click)="open()" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Filter
+    </button>
+    <ul class="dropdown-menu" *ngIf="(categories$ | async) as categories">
+      <li *ngFor="let c of categories"><a class="dropdown-item">{{c}}</a></li>
+    </ul>
+  </div>
+</div>
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <app-product *ngFor="let p of products" [product]="p" (emitProduct)="deleteProduct(p)" />
+  <p class="alert alert-info" *ngIf="!products.length">No search result</p>
 </div>
-
-
-
-<!-- <form #formModel="ngForm" (ngSubmit)="templateDrFormSubmit(formModel)">
-    <input type="text" id="firstName" name="firstName" [(ngModel)]="dataModel.firstName" #firstName="ngModel" required  class="form-control">
-    <div *ngIf="firstName.invalid || firstName.pristine">
-      <p class="text-danger">This field is invalid</p>
-    </div>
-    <input type="text" id="lastName" name="lastName" ngModel  class="form-control">
-    <input type="number" id="lastName" name="age" ngModel  class="form-control">
-    <button type="submit">Submit</button>
-</form> -->

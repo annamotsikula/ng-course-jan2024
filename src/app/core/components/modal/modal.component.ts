@@ -7,6 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ModalComponent {
   @Input({required: true}) title: string = ''
-  @Output() detectClick: EventEmitter<void> = new EventEmitter<void>()
+  @Output() detectClick: EventEmitter<boolean> = new EventEmitter<boolean>()
 
 }

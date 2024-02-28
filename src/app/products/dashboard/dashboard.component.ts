@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Observable, debounceTime, fromEvent, map, switchMap } from 'rxjs';
 import { ProductService } from 'src/app/core/services/product.service';
 import { NewProduct, Product, ProductForm } from 'src/app/helpers/interfaces/product.interface';
 
@@ -8,8 +9,15 @@ import { NewProduct, Product, ProductForm } from 'src/app/helpers/interfaces/pro
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class ProductDashboardComponent {
+export class ProductDashboardComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
+  @ViewChild('search') searchInput!: ElementRef<HTMLInputElement>;
+  categories$: Observable<string[]>= new Observable();
+
+  
+
+  
+
 
   dataModel = {
     firstName: '',
@@ -17,17 +25,37 @@ export class ProductDashboardComponent {
     sge: null
   }
   constructor(private _productService: ProductService) {
+    this.categories$ = this._productService.getCategories().pipe(
+
+    )
 
   }
+  ngAfterViewInit(): void {
+    fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+      debounceTime(700),
+      map(ev => ev.target as HTMLInputElement),
+      map(ev => ev.value),
+      switchMap(val => this._productService.searchProduct(val))
+    )
+    .subscribe(res => {
+      console.log(res)
+      this.products = res
+    })
 
+  }
   ngOnInit(): void {
     this.getAllProducts();
+  }
+  open() {
+    this._productService.getCategories().subscribe(res => {
+      console.log(res)
+    })
   }
 
   getAllProducts() {
     this._productService.getProducts().subscribe(
       result => {
-        this.products = result.products
+        this.products = result
       }
     )
   }
@@ -40,7 +68,7 @@ export class ProductDashboardComponent {
       this.getAllProducts();
     })
   }
-  
+
   // templateDrFormSubmit(ngform: NgForm) {
   //   // console.log(ngform.form.)
 
@@ -50,6 +78,7 @@ export class ProductDashboardComponent {
       title: name, description, price, category
     }
     this._productService.addProduct(newProduct).subscribe(result => {
+      this._productService.productAdded.next(true)
       this.getAllProducts();
     })
   }
