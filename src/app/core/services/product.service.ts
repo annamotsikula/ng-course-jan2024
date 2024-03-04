@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ProductHttpResponse } from 'src/app/helpers/interfaces/http.interface';
 import { NewProduct, Product } from 'src/app/helpers/interfaces/product.interface';
 import { BASE_URL } from '../constants';
-import { BehaviorSubject, Observable, ReplaySubject, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription, map, of, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,34 +11,18 @@ import { BehaviorSubject, Observable, ReplaySubject, Subject, map } from 'rxjs';
 export class ProductService {
   private _products: Product[] = [];
   productAdded: Subject<boolean> = new Subject<boolean>();
-  constructor(private _http: HttpClient) {
-    // this.productAdded.asObservable().subscribe(data => console.log(data))
-
-    // this.productAdded.next(1);
-    // this.productAdded.next(2);
-    // this.productAdded.next(3);
-    // const testSubject = new Subject()
-    // this.productDeleted.next(true)
-  // this.productDeleted.subscribe(console.log);
-  // this.productDeleted.next(true);
-
-
-  // const replay = new ReplaySubject(2);
-
-  // replay.next(1);
-  // replay.next('Angular');
-  // replay.subscribe(console.log);
-  // replay.next(2);
-  // replay.next(3);
-  // replay.next('RxJs');
-  // replay.subscribe(console.log);
-
-
-  }
+  categories$!: Subscription
+  cartProducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([])
+  constructor(private _http: HttpClient) {}
 
 
   getProducts(): Observable<Product[]> {
     return this._http.get<ProductHttpResponse>(`${BASE_URL}/products`).pipe(
+      map(data => data.products)
+    )
+  }
+  getProductByCategory(category: string) {
+    return this._http.get<ProductHttpResponse>(`${BASE_URL}/products/category/${category}`).pipe(
       map(data => data.products)
     )
   }
@@ -72,6 +56,11 @@ export class ProductService {
   }
 
   getCategories() {
-    return this._http.get<string[]>(`${BASE_URL}/products/categories`)
+    // if(this.categories$) {
+    //   return of(this.category)
+    // }
+      return this._http.get<string[]>(`${BASE_URL}/products/categories`).pipe(
+      )
+    
   }
 }

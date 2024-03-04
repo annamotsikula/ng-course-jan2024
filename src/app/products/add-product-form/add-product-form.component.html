@@ -183,6 +183,10 @@
             <i class="bi bi-x-lg ms-2" (click)="removeItem(control.value, 'specification')"></i>
         </div>
     </div>
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Default file input example</label>
+      <input class="form-control" type="file" id="formFile" (change)="uploadImage($event)">
+    </div>
     <!-- <button type="submit" class="btn btn-primary mt-3">Submit</button> -->
   </form>
 </app-modal>

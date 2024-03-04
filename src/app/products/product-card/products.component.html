@@ -5,7 +5,7 @@
   <div
     class="image d-flex flex-column justify-content-center align-items-center position-relative"
   >
-    <button class="delete btn btn-danger" type="button" (click)="productToDelete()">
+    <button class="delete btn btn-danger" type="button" (click)="emitValue('delete')">
       <i class="bi bi-trash3"></i>
     </button>
     <button class="btn btn-secondary">
@@ -17,6 +17,7 @@
     <span class="text-center">{{ product.description | truncate : 7 }}</span>
     <div class="d-flex mt-2">
       <button class="btn1 btn-dark" (click)="redirect()">View Product</button>
+      <button class="btn btn-warning add ms-2" (click)="emitValue('add')">Add to cart</button>
     </div>
   </div>
 </div>

@@ -2,15 +2,18 @@
 <div class="mb-4 w-50 m-auto d-flex">
   <input type="text" class="form-control" placeholder="Search items" #search>
   <div class="dropdown ms-2">
-    <button class="btn btn-secondary dropdown-toggle" (click)="open()" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-secondary dropdown-toggle" (click)="getCategory()" type="button" data-bs-toggle="dropdown" aria-expanded="false">
       Filter
     </button>
-    <ul class="dropdown-menu" *ngIf="(categories$ | async) as categories">
-      <li *ngFor="let c of categories"><a class="dropdown-item">{{c}}</a></li>
+    <ul class="dropdown-menu" *ngIf="categories">
+      <li *ngFor="let c of categories"><a class="dropdown-item" (click)="searchByCategory(c)">{{c}}</a></li>
     </ul>
   </div>
+  <button class="btn btn-warning ms-2" (click)="getAllProducts()">
+    Reset
+  </button>
 </div>
 <div class="row row-cols-1 row-cols-md-3 g-4">
-  <app-product *ngFor="let p of products" [product]="p" (emitProduct)="deleteProduct(p)" />
+  <app-product *ngFor="let p of products" [product]="p" (emitProduct)="action($event, p)" />
   <p class="alert alert-info" *ngIf="!products.length">No search result</p>
 </div>

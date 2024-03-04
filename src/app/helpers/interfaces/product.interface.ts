@@ -27,6 +27,7 @@ export interface ProductForm {
     features?: FormGroup<ProductFeatureForm>,
     currency?: FormControl<string | null>,
     specification: FormArray,
+    file?: FormControl<File>
    
 
 }

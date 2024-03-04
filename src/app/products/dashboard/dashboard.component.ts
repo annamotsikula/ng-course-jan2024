@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable, debounceTime, fromEvent, map, switchMap } from 'rxjs';
+import { Observable, concat, concatMap, debounceTime, fromEvent, map, switchMap, tap } from 'rxjs';
+import { HttpService } from 'src/app/core/services/http.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { NewProduct, Product, ProductForm } from 'src/app/helpers/interfaces/product.interface';
 
@@ -12,48 +13,51 @@ import { NewProduct, Product, ProductForm } from 'src/app/helpers/interfaces/pro
 export class ProductDashboardComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   @ViewChild('search') searchInput!: ElementRef<HTMLInputElement>;
-  categories$: Observable<string[]>= new Observable();
-
-  
-
-  
-
+  categories: string[] = []
+  // categories$: Observable<string[]>= new Observable();
 
   dataModel = {
     firstName: '',
     lastName: '',
     sge: null
   }
-  constructor(private _productService: ProductService) {
-    this.categories$ = this._productService.getCategories().pipe(
-
-    )
-
+  constructor(private productService: ProductService, private _httpService: HttpService) {
   }
   ngAfterViewInit(): void {
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
       debounceTime(700),
       map(ev => ev.target as HTMLInputElement),
       map(ev => ev.value),
-      switchMap(val => this._productService.searchProduct(val))
+      switchMap(val => this.productService.searchProduct(val))
     )
-    .subscribe(res => {
-      console.log(res)
-      this.products = res
-    })
+      .subscribe()
 
-  }
+   }
   ngOnInit(): void {
+    
     this.getAllProducts();
   }
   open() {
-    this._productService.getCategories().subscribe(res => {
+    this.productService.getCategories().subscribe(res => {
       console.log(res)
+      this.categories = this.categories
     })
   }
-
+  action(type: 'delete' | 'add', product: Product) {
+    type === 'delete' ? this.deleteProduct(product) : this.addToCart(product)
+  }
+  addToCart(product: Product) {
+    this.productService.cartProducts.next(
+     [ product, ...this.productService.cartProducts.getValue() ]
+    )
+  }
+  searchByCategory(key: string) {
+    this.productService.getProductByCategory(key).pipe(
+      tap(result => this.products = result)
+    ).subscribe()
+  }
   getAllProducts() {
-    this._productService.getProducts().subscribe(
+    this.productService.getProducts().subscribe(
       result => {
         this.products = result
       }
@@ -61,7 +65,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
   }
 
   deleteProduct(p: Product) {
-    this._productService.deleteProduct(p.id).subscribe(d => {
+    this.productService.deleteProduct(p.id).subscribe(d => {
       alert(
         `Product (id: ${p.id}) has successfully deleted`
       );
@@ -69,17 +73,34 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     })
   }
 
-  // templateDrFormSubmit(ngform: NgForm) {
-  //   // console.log(ngform.form.)
-
-  // }
-  addProduct({ name, description, price, category, brand }: any) {
+  addProduct({ name, description, price, category, brand, file }: any) {
     const newProduct = {
       title: name, description, price, category
     }
-    this._productService.addProduct(newProduct).subscribe(result => {
-      this._productService.productAdded.next(true)
-      this.getAllProducts();
-    })
+    console.log(file)
+    this._httpService.upload(name, file).pipe(
+      concatMap(uploadStatus => this.productService.addProduct(newProduct))
+    )
+      .subscribe(res => {
+        this.productService.productAdded.next(true)
+        this.getAllProducts();
+      })
+
+  }
+  
+  getCategory() {
+    if(this.productService.categories$) {
+      return 
+    }
+    this.productService.categories$ = this.productService.getCategories().pipe(
+      tap(category => this.categories = category)
+      
+    ).subscribe()
+  }
+
+  ngOnDestroy() {
+    if(this.productService.categories$) {
+      this.productService.categories$.unsubscribe()
+    }
   }
 }

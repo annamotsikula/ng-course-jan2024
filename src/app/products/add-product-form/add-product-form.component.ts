@@ -51,17 +51,18 @@ export class AddProductFormComponent {
       }),
       specification: new FormArray([
         new FormControl()
-      ])
+      ]),
+      file: new FormControl()
     })
     console.log(this.form)
 
-    this.form.controls.brand.valueChanges.subscribe(data => {
-      console.log(data)
-    })
+    // this.form.controls.brand.valueChanges.subscribe(data => {
+    //   console.log(data)
+    // })
 
-    this.form.controls.description.valueChanges.subscribe(data => {
-      console.log(data)
-    })
+    // this.form.controls.description.valueChanges.subscribe(data => {
+    //   console.log(data)
+    // })
 
 
   }
@@ -112,6 +113,18 @@ export class AddProductFormComponent {
     }
     status ? submit() : cancel();
 
+  }
+
+  uploadImage(event: Event) {
+    const fileObject =(event.target as HTMLInputElement).files
+    if(fileObject?.length) {
+      const file: File = fileObject[0];
+     
+      this.form.controls.file?.patchValue(file)
+    }
+    
+    
+    
   }
 
 
