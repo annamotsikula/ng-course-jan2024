@@ -1,8 +1,7 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductService } from 'src/app/core/services/product.service';
-import { Product } from 'src/app/helpers/interfaces/product.interface';
 
 @Component({
   selector: 'app-cart-panel',
@@ -13,10 +12,16 @@ import { Product } from 'src/app/helpers/interfaces/product.interface';
 
 })
 export class CartPanelComponent {
-  cart$: Observable<Product[]>
-  constructor(private _productService: ProductService) {
-    this.cart$ = this._productService.cartProducts.asObservable()
+  productService = inject(ProductService)
+  router = inject(Router)
+  items = computed(() => {
+    return this.productService.cartProducts().length
+  })
 
+  navigate() {
+    this.router.navigateByUrl('cart')
   }
+
+
 
 }

@@ -7,7 +7,8 @@ export interface Product extends NewProduct {
     stock: number,
     brand?: string,
     thumbnail: string,
-    images: string[]
+    images: string[],
+    quantity: number
 }
 export interface NewProduct {
     title: string;

@@ -1,10 +1,4 @@
-import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
-import { ProductService } from './core/services/product.service';
-import { NewProduct, Product } from './helpers/interfaces/product.interface';
-import { INJECTOR_TITLE } from './core/constants';
-import { HttpService } from './core/services/http.service';
-import { ajax } from 'rxjs/ajax'
-import { concatMap, debounceTime, delay, filter, first, forkJoin, fromEvent, interval, map, of, switchMap, take, tap, toArray } from 'rxjs';
+import { Component, Inject, InjectionToken, OnInit, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +6,28 @@ import { concatMap, debounceTime, delay, filter, first, forkJoin, fromEvent, int
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+
+
+  // counter = signal(0)
+
+  // product = signal({
+  //   name: 'Product 1',
+  //   id: 1
+  // },
+  //   { equal: (prev, next) => prev.name === next.name && prev.id === next.id })
+
+  // name = computed(() => {
+  //   console.log('Updating Object')
+  //   return this.product().name
+  // })
+
+  // constructor() {}
+
+  // update() {
+  //   this.product.set({
+  //     id: 1,
+  //     name: 'Product 1'
+  //   });
+  // }
 
 }

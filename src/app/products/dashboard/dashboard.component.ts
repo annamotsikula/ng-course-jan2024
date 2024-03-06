@@ -47,9 +47,7 @@ export class ProductDashboardComponent implements OnInit, AfterViewInit {
     type === 'delete' ? this.deleteProduct(product) : this.addToCart(product)
   }
   addToCart(product: Product) {
-    this.productService.cartProducts.next(
-     [ product, ...this.productService.cartProducts.getValue() ]
-    )
+    this.productService.addToCart(product);
   }
   searchByCategory(key: string) {
     this.productService.getProductByCategory(key).pipe(

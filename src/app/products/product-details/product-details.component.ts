@@ -9,18 +9,29 @@ import { Product } from 'src/app/helpers/interfaces/product.interface';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnDestroy {
-  item: Product | undefined
+  item!: Product
+  quantity: number = 1
   constructor(private _activatedRoute: ActivatedRoute, private _productService: ProductService) {
-    const idFromUrl = Number(this._activatedRoute.snapshot.params['id']);
-    this._productService.getProductById(idFromUrl).subscribe(res => {
-      console.log('Result', res)
-      this.item = res
-    },
-    error => console.log(error),
-    () => console.log('COMPLETED')
-    );
+    this.item = this._activatedRoute.snapshot.data['item']
   }
   ngOnDestroy() {
     console.log('This component will be removed from DOM')
+  }
+  addToCart() {
+    if (this.item && this.quantity <= this.item.stock && this.quantity >= 1) {
+      this.item.quantity = this.quantity
+      console.log(this.item)
+      this._productService.addToCart(this.item);
+      return
+    } 
+    alert('Not required')
+  }
+
+  changeQuantity(status: 'incr' | 'decr') {
+    status === 'decr' ? 
+      this.quantity <= 1 ? 
+        null : this.quantity -= 1 :
+          this.quantity >= this.item?.stock ? null : this.quantity +=1
+
   }
 }

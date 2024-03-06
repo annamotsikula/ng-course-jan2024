@@ -84,21 +84,25 @@
                   type="button"
                   id="button-addon1"
                   data-mdb-ripple-color="dark"
+                  (click)="changeQuantity('decr')"
                 >
                   <i class="bi bi-dash"></i>
                 </button>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control text-center border border-secondary"
-                  placeholder="14"
+                  [(ngModel)]="quantity"
                   aria-label="Example text with button addon"
                   aria-describedby="button-addon1"
-                />
+                  placeholder="1"
+                  
+                  />
                 <button
                   class="btn btn-white border border-secondary px-3"
                   type="button"
                   id="button-addon2"
                   data-mdb-ripple-color="dark"
+                  (click)="changeQuantity('incr')"
                 >
                   <i class="bi bi-plus"></i>
                 </button>
@@ -106,14 +110,8 @@
             </div>
           </div>
           <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-          <a href="#" class="btn btn-primary shadow-0">
+          <a class="btn btn-primary shadow-0 ms-2" (click)="addToCart()">
             <i class="me-1 bi bi-basket"></i> Add to cart
-          </a>
-          <a
-            href="#"
-            class="btn btn-light border border-secondary py-2 icon-hover px-3"
-          >
-            <i class="me-1 bi bi-heart-fill"></i> Save
           </a>
         </div>
       </main>

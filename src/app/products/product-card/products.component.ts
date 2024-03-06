@@ -17,6 +17,7 @@ export class ProductsComponent {
   }
 
   redirect() {
+    console.log(this.product.id)
     this._router.navigate(['products', this.product.id])
   }
 
