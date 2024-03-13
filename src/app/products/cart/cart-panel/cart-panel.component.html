@@ -1,7 +1,8 @@
-<button type="button" class="btn position-relative" (click)="navigate()">
-    Cart
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-      {{ items() }}
-      <span class="visually-hidden">unread messages</span>
-    </span>
-  </button>
+<a class="nav-link position-relative" routerLink="/main/cart" routerLinkActive="active" >
+  Cart
+  <span
+    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+  >
+    {{ items() }}
+  </span>
+</a>

@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { ProductService } from 'src/app/core/services/product.service';
   templateUrl: './cart-panel.component.html',
   styleUrls: ['./cart-panel.component.scss'],
   standalone: true,
-  imports: [AsyncPipe]
+  imports: [AsyncPipe, RouterModule]
 
 })
 export class CartPanelComponent {
@@ -17,11 +17,6 @@ export class CartPanelComponent {
   items = computed(() => {
     return this.productService.cartProducts().length
   })
-
-  navigate() {
-    this.router.navigateByUrl('cart')
-  }
-
 
 
 }
