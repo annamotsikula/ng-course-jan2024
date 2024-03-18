@@ -1,9 +1,10 @@
-import { Component, Inject, InjectionToken, OnInit, computed, signal } from '@angular/core';
+import { Component, Inject, InjectionToken, OnInit, ViewEncapsulation, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+ 
 })
 export class AppComponent {
 
